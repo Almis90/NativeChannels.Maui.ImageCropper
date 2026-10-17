@@ -1,4 +1,4 @@
-# NativeChannels.ImageCropper.Maui
+# NativeChannels.Maui.ImageCropper
 
 A .NET 10 MAUI image cropper built on **NativeChannels.Maui 0.1.0-preview.2**. Includes a typed service, an optional MAUI selection page, native adapters, a sample app, and NuGet packaging configuration.
 
@@ -17,7 +17,7 @@ After building/installing the plugin package, register the module inside your ap
 
 ```csharp
 using NativeChannels;
-using NativeChannels.ImageCropper.Maui;
+using NativeChannels.Maui.ImageCropper;
 
 builder.UseNativeChannels(options => options.AddImageCropper());
 builder.Services.AddImageCropper();
@@ -98,14 +98,14 @@ The sample defaults to a project reference with explicit native imports for deve
 
 ## Package
 
-The SDK-style library follows Microsoft's MAUI class-library and multi-targeting structure. Its `buildTransitive` targets bring the AAR/XCFramework into consuming applications. Windows adapters live in the independent `native/windows/NativeChannels.ImageCropper.Maui.Windows.csproj` project. It owns the WinUI toolkit reference and builds its own assembly and NuGet package. The main plugin references it only for Windows; there is no reverse project dependency. SDK packing records the adapter package as a Windows-only dependency. Pack validates that both mobile adapters exist; it will not silently produce a managed-only package.
+The SDK-style library follows Microsoft's MAUI class-library and multi-targeting structure. Its `buildTransitive` targets bring the AAR/XCFramework into consuming applications. Windows adapters live in the independent `native/windows/NativeChannels.Maui.ImageCropper.Windows.csproj` project. It owns the WinUI toolkit reference and builds its own assembly and NuGet package. The main plugin references it only for Windows; there is no reverse project dependency. SDK packing records the adapter package as a Windows-only dependency. Pack validates that both mobile adapters exist; it will not silently produce a managed-only package.
 
 Build all four managed targets in Release with the appropriate host toolchains, retaining the same source revision and configuration. For a full package, collect their `bin/Release/<TFM>` outputs and native artifacts on a packaging host with the required .NET workload packs installed, then run:
 
 ```sh
-dotnet pack native/windows/NativeChannels.ImageCropper.Maui.Windows.csproj -c Release -o artifacts/packages
-dotnet pack src/NativeChannels.ImageCropper.Maui -c Release --no-build -o artifacts/packages
-python eng/inspect-package.py artifacts/packages/NativeChannels.ImageCropper.Maui.0.1.0-preview.nupkg
+dotnet pack native/windows/NativeChannels.Maui.ImageCropper.Windows.csproj -c Release -o artifacts/packages
+dotnet pack src/NativeChannels.Maui.ImageCropper -c Release --no-build -o artifacts/packages
+python eng/inspect-package.py artifacts/packages/NativeChannels.Maui.ImageCropper.0.1.0-preview.nupkg
 ```
 
 Keep both packages in the same feed and publish the Windows adapter package alongside the main plugin. Consumers still install only the main package; NuGet restores the adapter and toolkit transitively for Windows.
@@ -140,4 +140,4 @@ On a Mac, build both frameworks and run the sample on an iOS simulator and Mac C
 
 ## Publishing
 
-Run the **Publish NuGet preview** GitHub Actions workflow on `main`. It publishes version `0.1.0-preview` only after every build and package-consumer job succeeds. NuGet trusts `Almis90/image-cropper` and `publish.yml` for exactly `NativeChannels.ImageCropper.Maui` and `NativeChannels.ImageCropper.Maui.Windows`; no long-lived API key is stored. Platform-only package slices are intermediate build artifacts and must never be published individually.
+Run the **Publish NuGet preview** GitHub Actions workflow on `main`. It publishes version `0.1.0-preview` only after every build and package-consumer job succeeds. NuGet trusts `Almis90/image-cropper` and `publish.yml` for exactly `NativeChannels.Maui.ImageCropper` and `NativeChannels.Maui.ImageCropper.Windows`; no long-lived API key is stored. Platform-only package slices are intermediate build artifacts and must never be published individually.

@@ -1,4 +1,4 @@
-namespace NativeChannels.ImageCropper.Maui.Windows;
+namespace NativeChannels.Maui.ImageCropper.Windows;
 
 internal sealed class WindowsImageCropperModule : IWindowsChannelModule
 {

@@ -3,10 +3,10 @@
     <TargetFrameworks>net10.0-windows10.0.19041.0</TargetFrameworks>
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
     <UseMaui>true</UseMaui>
-    <PackageId>NativeChannels.ImageCropper.Maui.Windows</PackageId>
+    <PackageId>NativeChannels.Maui.ImageCropper.Windows</PackageId>
     <Version>0.1.0-preview</Version>
     <Authors>Almis</Authors>
-    <Description>Windows native adapters for NativeChannels.ImageCropper.Maui.</Description>
+    <Description>Windows native adapters for NativeChannels.Maui.ImageCropper.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>

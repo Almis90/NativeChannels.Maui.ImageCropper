@@ -6,11 +6,11 @@ from zipfile import ZipFile
 with ZipFile(sys.argv[1]) as package:
     names = package.namelist()
     for platform in ("android", "ios", "maccatalyst", "windows"):
-        assert any(n.startswith(f"lib/net10.0-{platform}") and n.endswith("/NativeChannels.ImageCropper.Maui.dll") for n in names), platform
+        assert any(n.startswith(f"lib/net10.0-{platform}") and n.endswith("/NativeChannels.Maui.ImageCropper.dll") for n in names), platform
     for required in ("README.md", "native/android/imagecropper.aar", "native/android/android-image-cropper-4.7.0.aar",
                      "native/android/CanHub-LICENSE.txt", "native/apple/MauiImageCropperNative.xcframework/Info.plist",
                      "native/apple/Mantis.xcframework/Info.plist", "native/apple/Mantis-LICENSE.txt",
-                     "buildTransitive/NativeChannels.ImageCropper.Maui.targets"):
+                     "buildTransitive/NativeChannels.Maui.ImageCropper.targets"):
         assert required in names, required
     for platform in ("ios-arm64", "ios-arm64_x86_64-simulator", "ios-arm64_x86_64-maccatalyst"):
         assert any(f"/{platform}/" in n and n.endswith("/MauiImageCropperNative") for n in names), platform
@@ -23,9 +23,9 @@ with ZipFile(sys.argv[1]) as package:
     for group in (e for e in spec.iter() if e.tag.endswith("group")):
         dependencies = [e.attrib.get("id") for e in group]
         if "windows" in group.attrib.get("targetFramework", "").lower():
-            assert "NativeChannels.ImageCropper.Maui.Windows" in dependencies, "Missing Windows adapter dependency"
+            assert "NativeChannels.Maui.ImageCropper.Windows" in dependencies, "Missing Windows adapter dependency"
         else:
-            assert "NativeChannels.ImageCropper.Maui.Windows" not in dependencies, "Windows adapter leaked into another platform"
+            assert "NativeChannels.Maui.ImageCropper.Windows" not in dependencies, "Windows adapter leaked into another platform"
         if "android" in group.attrib.get("targetFramework", "").lower():
             for dependency in ("Xamarin.AndroidX.DataBinding.ViewBinding", "Xamarin.AndroidX.ExifInterface",
                                "Xamarin.Kotlin.Parcelize.Runtime", "Xamarin.KotlinX.Coroutines.Android"):

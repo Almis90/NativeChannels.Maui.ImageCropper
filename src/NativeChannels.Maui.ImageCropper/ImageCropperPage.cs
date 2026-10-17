@@ -1,6 +1,6 @@
 using Microsoft.Maui.Controls;
 
-namespace NativeChannels.ImageCropper.Maui;
+namespace NativeChannels.Maui.ImageCropper;
 
 /// <summary>A modal crop selection page. Push with PushModalAsync, then await Result.</summary>
 public sealed class ImageCropperPage : ContentPage

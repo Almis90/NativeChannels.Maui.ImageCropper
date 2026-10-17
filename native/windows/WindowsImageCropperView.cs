@@ -3,7 +3,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using global::Windows.Storage.Streams;
 using ToolkitCropper = CommunityToolkit.WinUI.Controls.ImageCropper;
 
-namespace NativeChannels.ImageCropper.Maui.Windows;
+namespace NativeChannels.Maui.ImageCropper.Windows;
 
 internal sealed class WindowsImageCropperView : IDisposable
 {

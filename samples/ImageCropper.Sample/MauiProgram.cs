@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 using NativeChannels;
-using NativeChannels.ImageCropper.Maui;
+using NativeChannels.Maui.ImageCropper;
 
 namespace ImageCropper.Sample;
 

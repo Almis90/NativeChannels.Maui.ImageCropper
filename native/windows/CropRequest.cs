@@ -1,6 +1,6 @@
 using global::Windows.Graphics.Imaging;
 
-namespace NativeChannels.ImageCropper.Maui.Windows;
+namespace NativeChannels.Maui.ImageCropper.Windows;
 
 internal sealed record CropRequest(string Path, double X, double Y, double Width, double Height)
 {

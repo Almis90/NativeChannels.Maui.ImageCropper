@@ -3,7 +3,7 @@
     <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst;net10.0-windows10.0.19041.0</TargetFrameworks>
     <UseMaui>true</UseMaui>
     <SingleProject>true</SingleProject>
-    <PackageId>NativeChannels.ImageCropper.Maui</PackageId>
+    <PackageId>NativeChannels.Maui.ImageCropper</PackageId>
     <Version>0.1.0-preview</Version>
     <Authors>Almis</Authors>
     <Description>Native image cropping for Android, iOS, Mac Catalyst and Windows through NativeChannels.</Description>
@@ -25,7 +25,7 @@
     <None Include="../../native/apple/Mantis-LICENSE.txt" Pack="true" PackagePath="native/apple/" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
-    <ProjectReference Include="../../native/windows/NativeChannels.ImageCropper.Maui.Windows.csproj" />
+    <ProjectReference Include="../../native/windows/NativeChannels.Maui.ImageCropper.Windows.csproj" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
     <!-- CanHub's runtime dependencies: use NuGet-managed AndroidX/Kotlin assets once. -->

@@ -1,4 +1,4 @@
-namespace NativeChannels.ImageCropper.Maui;
+namespace NativeChannels.Maui.ImageCropper;
 
 public interface IImageCropper
 {

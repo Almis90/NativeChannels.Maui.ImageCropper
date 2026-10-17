@@ -47,9 +47,9 @@ def merge(inputs, destination):
             if content_types is None:
                 content_types = types
             else:
-                known = {ET.tostring(e) for e in content_types}
+                known = {(e.tag, tuple(sorted(e.attrib.items()))) for e in content_types}
                 for e in types:
-                    if ET.tostring(e) not in known:
+                    if (e.tag, tuple(sorted(e.attrib.items()))) not in known:
                         content_types.append(deepcopy(e))
             for name in archive.namelist():
                 if name.endswith('/') or name.endswith('.nuspec') or name == '[Content_Types].xml':
@@ -86,7 +86,7 @@ if __name__ == '__main__':
     parser.add_argument('input', type=Path)
     parser.add_argument('output', type=Path)
     args = parser.parse_args()
-    packages = sorted(args.input.rglob('NativeChannels.ImageCropper.Maui.0.1.0-preview.nupkg'))
+    packages = sorted(args.input.rglob('NativeChannels.Maui.ImageCropper.0.1.0-preview.nupkg'))
     if len(packages) != 4:
         raise SystemExit(f'Expected exactly four platform slices; found {len(packages)}')
     print(merge(packages, args.output))

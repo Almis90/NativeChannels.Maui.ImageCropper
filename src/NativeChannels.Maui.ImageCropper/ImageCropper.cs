@@ -1,4 +1,4 @@
-namespace NativeChannels.ImageCropper.Maui;
+namespace NativeChannels.Maui.ImageCropper;
 
 public sealed class ImageCropper(IChannelService channels) : IImageCropper, IDisposable
 {

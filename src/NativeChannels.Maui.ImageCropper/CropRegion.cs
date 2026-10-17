@@ -1,4 +1,4 @@
-namespace NativeChannels.ImageCropper.Maui;
+namespace NativeChannels.Maui.ImageCropper;
 
 /// <summary>A normalized rectangle in the encoded image's pixel coordinate system (EXIF orientation is ignored).</summary>
 public readonly record struct CropRegion(double X, double Y, double Width, double Height)

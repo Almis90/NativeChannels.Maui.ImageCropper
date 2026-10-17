@@ -5,13 +5,13 @@ VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativeChannels.ImageCropper.Maui", "src\NativeChannels.ImageCropper.Maui\NativeChannels.ImageCropper.Maui.csproj", "{AEA6CEDA-9356-2048-51E2-8CD4B454E6DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativeChannels.Maui.ImageCropper", "src\NativeChannels.Maui.ImageCropper\NativeChannels.Maui.ImageCropper.csproj", "{AEA6CEDA-9356-2048-51E2-8CD4B454E6DB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "native", "native", "{2F2BA0B1-8447-348E-8DA4-622F0257D38B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "windows", "windows", "{B318D7C2-02A9-9A0B-735C-DCD934F45A4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativeChannels.ImageCropper.Maui.Windows", "native\windows\NativeChannels.ImageCropper.Maui.Windows.csproj", "{2D53B106-E5D0-4A0A-B422-76248C63EBA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativeChannels.Maui.ImageCropper.Windows", "native\windows\NativeChannels.Maui.ImageCropper.Windows.csproj", "{2D53B106-E5D0-4A0A-B422-76248C63EBA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

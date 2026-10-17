@@ -19,8 +19,8 @@ jobs:
       - run: dotnet run --project tests/ImageCropper.Tests -c Release
       - run: dotnet run --project tests/ImageCropper.Tests -c Release -p:TestWindows=true
       - run: dotnet build samples/ImageCropper.Sample -c Release -p:TargetFrameworks=net10.0-windows10.0.19041.0
-      - run: dotnet pack native/windows/NativeChannels.ImageCropper.Maui.Windows.csproj -c Release -o artifacts/windows-adapter
-      - run: dotnet pack src/NativeChannels.ImageCropper.Maui -c Release -p:TargetFrameworks=net10.0-windows10.0.19041.0 -p:BuildPackageSlice=true -o artifacts/slices/windows
+      - run: dotnet pack native/windows/NativeChannels.Maui.ImageCropper.Windows.csproj -c Release -o artifacts/windows-adapter
+      - run: dotnet pack src/NativeChannels.Maui.ImageCropper -c Release -p:TargetFrameworks=net10.0-windows10.0.19041.0 -p:BuildPackageSlice=true -o artifacts/slices/windows
       - uses: actions/upload-artifact@v4
         with:
           name: slice-windows
@@ -41,6 +41,8 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.13'
@@ -49,7 +51,7 @@ jobs:
       - run: python3 eng/build-android.py
       - run: dotnet workload install maui-android
       - run: dotnet build samples/ImageCropper.Sample -c Release -f net10.0-android -p:TargetFrameworks=net10.0-android -p:RuntimeIdentifier=android-arm64
-      - run: dotnet pack src/NativeChannels.ImageCropper.Maui -c Release -p:TargetFrameworks=net10.0-android -p:BuildPackageSlice=true -o artifacts/slices/android
+      - run: dotnet pack src/NativeChannels.Maui.ImageCropper -c Release -p:TargetFrameworks=net10.0-android -p:BuildPackageSlice=true -o artifacts/slices/android
       - uses: actions/upload-artifact@v4
         with:
           name: slice-android
@@ -67,8 +69,8 @@ jobs:
       - run: dotnet workload install maui
       - run: dotnet build samples/ImageCropper.Sample -c Release -p:TargetFrameworks=net10.0-ios -p:RuntimeIdentifier=iossimulator-arm64
       - run: dotnet build samples/ImageCropper.Sample -c Release -p:TargetFrameworks=net10.0-maccatalyst
-      - run: dotnet pack src/NativeChannels.ImageCropper.Maui -c Release -p:TargetFrameworks=net10.0-ios -p:BuildPackageSlice=true -o artifacts/slices/ios
-      - run: dotnet pack src/NativeChannels.ImageCropper.Maui -c Release -p:TargetFrameworks=net10.0-maccatalyst -p:BuildPackageSlice=true -o artifacts/slices/maccatalyst
+      - run: dotnet pack src/NativeChannels.Maui.ImageCropper -c Release -p:TargetFrameworks=net10.0-ios -p:BuildPackageSlice=true -o artifacts/slices/ios
+      - run: dotnet pack src/NativeChannels.Maui.ImageCropper -c Release -p:TargetFrameworks=net10.0-maccatalyst -p:BuildPackageSlice=true -o artifacts/slices/maccatalyst
       - uses: actions/upload-artifact@v4
         with:
           name: slice-apple
@@ -118,6 +120,8 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
         if: matrix.platform == 'android'
       - run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
         if: matrix.platform == 'android'
