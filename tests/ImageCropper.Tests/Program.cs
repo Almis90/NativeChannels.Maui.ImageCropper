@@ -49,7 +49,7 @@ try
     endpoint.RemoveMethodCallHandler();
 #if WINDOWS
     Console.WriteLine("Starting Windows native crop tests.");
-    using var module = NativeChannels.Maui.ImageCropper.Windows.WindowsImageCropperAdapter.CreateModule();
+    using var module = NativeChannels.ImageCropper.Native.Windows.WindowsImageCropperAdapter.CreateModule();
     module.Register(server);
     // A 2x2 RGBA PNG with red/green on the top row and blue/white on the bottom row.
     await File.WriteAllBytesAsync(file, Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVR4nGP4z8DwHwyBNBgAAEnICff5q7YNAAAAAElFTkSuQmCC"));

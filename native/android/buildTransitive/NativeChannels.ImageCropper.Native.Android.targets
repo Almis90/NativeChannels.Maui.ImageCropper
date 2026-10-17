@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <ImageCropperNativeRoot Condition="'$(ImageCropperNativeRoot)' == ''">$(MSBuildThisFileDirectory)../native/</ImageCropperNativeRoot>
+  </PropertyGroup>
+  <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
+    <AndroidLibrary Include="$(ImageCropperNativeRoot)android/imagecropper.aar" Bind="false" />
+    <AndroidLibrary Include="$(ImageCropperNativeRoot)android/android-image-cropper-4.7.0.aar" Bind="false" />
+  </ItemGroup>
+  <Target Name="ValidateImageCropperAndroidAssets" BeforeTargets="PrepareForBuild" Condition="$(TargetFramework.Contains('-android'))">
+    <Error Condition="!Exists('$(ImageCropperNativeRoot)android/imagecropper.aar') Or !Exists('$(ImageCropperNativeRoot)android/android-image-cropper-4.7.0.aar')" Text="ImageCropper Android native assets are missing. For source builds, run eng/prepare-native.py and eng/build-android.py first." />
+  </Target>
+</Project>

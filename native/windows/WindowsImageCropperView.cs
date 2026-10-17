@@ -3,9 +3,9 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using global::Windows.Storage.Streams;
 using ToolkitCropper = CommunityToolkit.WinUI.Controls.ImageCropper;
 
-namespace NativeChannels.Maui.ImageCropper.Windows;
+namespace NativeChannels.ImageCropper.Native.Windows;
 
-internal sealed class WindowsImageCropperView : IDisposable
+public sealed class WindowsImageCropperView : IDisposable
 {
     private readonly ToolkitCropper control = new()
     {
@@ -16,17 +16,31 @@ internal sealed class WindowsImageCropperView : IDisposable
     private readonly MethodChannel channel;
     private bool disposed;
 
-    private WindowsImageCropperView(WindowsViewContext context)
+    internal WindowsImageCropperView(IChannelService channels, string channelName)
     {
-        channel = context.Channels.GetMethodChannel(context.ChannelName,
-            new() { HandlerDispatcher = MauiChannelDispatchers.MainThread });
+        channel = channels.GetMethodChannel(channelName,
+            new() { HandlerDispatcher = DispatchAsync });
         channel.SetMethodCallHandler(HandleAsync);
     }
 
-    internal static WindowsNativeView Create(WindowsViewContext context)
+    public Microsoft.UI.Xaml.FrameworkElement View => control;
+
+    private ValueTask<object?> DispatchAsync(Func<ValueTask<object?>> handler, CancellationToken cancellation)
     {
-        var adapter = new WindowsImageCropperView(context);
-        return new WindowsNativeView(adapter.control, adapter.Dispose);
+        cancellation.ThrowIfCancellationRequested();
+        if (control.DispatcherQueue.HasThreadAccess) return handler();
+        var completion = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
+        if (!control.DispatcherQueue.TryEnqueue(async () =>
+        {
+            try
+            {
+                cancellation.ThrowIfCancellationRequested();
+                completion.TrySetResult(await handler());
+            }
+            catch (OperationCanceledException) { completion.TrySetCanceled(cancellation); }
+            catch (Exception error) { completion.TrySetException(error); }
+        })) completion.TrySetException(new ObjectDisposedException(nameof(WindowsImageCropperView)));
+        return new(completion.Task);
     }
 
     private async ValueTask<object?> HandleAsync(MethodCall call, CancellationToken cancellation)

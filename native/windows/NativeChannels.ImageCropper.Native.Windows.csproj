@@ -2,16 +2,16 @@
   <PropertyGroup>
     <TargetFrameworks>net10.0-windows10.0.19041.0</TargetFrameworks>
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
-    <UseMaui>true</UseMaui>
-    <PackageId>NativeChannels.Maui.ImageCropper.Windows</PackageId>
-    <Version>0.1.0-preview</Version>
+    <UseWinUI>true</UseWinUI>
+    <PackageId>NativeChannels.ImageCropper.Native.Windows</PackageId>
+    <Version>0.1.0-preview.2</Version>
     <Authors>Almis</Authors>
     <Description>Windows native adapters for NativeChannels.Maui.ImageCropper.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NativeChannels.Maui" Version="0.1.0-preview.2" />
-    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.110" />
+    <PackageReference Include="NativeChannels.Core" Version="0.1.0-preview.2" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260529003" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.ImageCropper" Version="8.2.251219" />
     <None Include="../../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>

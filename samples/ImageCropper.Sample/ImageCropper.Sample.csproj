@@ -66,8 +66,9 @@
     <ProjectReference Include="../../src/NativeChannels.Maui.ImageCropper/NativeChannels.Maui.ImageCropper.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(UseLocalPackage)' == 'true'">
-    <PackageReference Include="NativeChannels.Maui.ImageCropper" Version="0.1.0-preview" />
+    <PackageReference Include="NativeChannels.Maui.ImageCropper" Version="0.1.0-preview.2" />
   </ItemGroup>
   <PropertyGroup Condition="'$(UseLocalPackage)' != 'true'"><ImageCropperNativeRoot>$(MSBuildThisFileDirectory)../../artifacts/native/</ImageCropperNativeRoot></PropertyGroup>
-  <Import Project="../../src/NativeChannels.Maui.ImageCropper/buildTransitive/NativeChannels.Maui.ImageCropper.targets" Condition="'$(UseLocalPackage)' != 'true'" />
+  <Import Project="../../native/android/buildTransitive/NativeChannels.ImageCropper.Native.Android.targets" Condition="'$(UseLocalPackage)' != 'true'" />
+  <Import Project="../../native/apple/buildTransitive/NativeChannels.ImageCropper.Native.Apple.targets" Condition="'$(UseLocalPackage)' != 'true'" />
 </Project>

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
+    <PackageId>NativeChannels.ImageCropper.Native.Apple</PackageId>
+    <Version>0.1.0-preview.2</Version>
+    <Authors>Almis</Authors>
+    <Description>Apple native image cropper adapter for NativeChannels.</Description>
+    <SupportedOSPlatformVersion>15.0</SupportedOSPlatformVersion>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+    <None Include="buildTransitive/*.targets" Pack="true" PackagePath="buildTransitive/" />
+    <PackageReference Include="NativeChannels.Native.Apple" Version="0.1.0-preview.2" />
+    <None Include="../../artifacts/native/apple/Mantis.xcframework/**/*" Pack="true" PackagePath="native/apple/Mantis.xcframework/" />
+    <None Include="../../artifacts/native/apple/MauiImageCropperNative.xcframework/**/*" Pack="true" PackagePath="native/apple/MauiImageCropperNative.xcframework/" />
+    <None Include="Mantis-LICENSE.txt" Pack="true" PackagePath="native/apple/" />
+  </ItemGroup>
+</Project>

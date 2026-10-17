@@ -86,7 +86,7 @@ if __name__ == '__main__':
     parser.add_argument('input', type=Path)
     parser.add_argument('output', type=Path)
     args = parser.parse_args()
-    packages = sorted(args.input.rglob('NativeChannels.Maui.ImageCropper.0.1.0-preview.nupkg'))
+    packages = sorted(args.input.rglob('NativeChannels.Maui.ImageCropper.0.1.0-preview.2.nupkg'))
     if len(packages) != 4:
         raise SystemExit(f'Expected exactly four platform slices; found {len(packages)}')
     print(merge(packages, args.output))

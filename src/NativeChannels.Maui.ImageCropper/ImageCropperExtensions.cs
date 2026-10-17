@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 #if WINDOWS
-using NativeChannels.Maui.ImageCropper.Windows;
+using NativeChannels.ImageCropper.Native.Windows;
 #endif
 
 namespace NativeChannels.Maui.ImageCropper;
@@ -24,7 +24,11 @@ public static class ImageCropperExtensions
             "dev.nativechannels.imagecropper.ImageCropperViewFactory", "MCImageCropperViewFactory", "MauiImageCropperNative")
         {
 #if WINDOWS
-            WindowsFactory = WindowsImageCropperAdapter.CreateView
+            WindowsFactory = context =>
+            {
+                var view = WindowsImageCropperAdapter.CreateView(context.Channels, context.ChannelName);
+                return new WindowsNativeView(view.View, view.Dispose);
+            }
 #endif
         };
         if (!options.ViewFactories.Contains(view)) options.ViewFactories.Add(view);
@@ -38,6 +42,13 @@ public static class ImageCropperExtensions
         return services;
     }
 #if WINDOWS
-    private static IWindowsChannelModule CreateWindowsModule() => WindowsImageCropperAdapter.CreateModule();
+    private static IWindowsChannelModule CreateWindowsModule() => new MauiWindowsModule();
+
+    private sealed class MauiWindowsModule : IWindowsChannelModule
+    {
+        private readonly WindowsImageCropperModule module = WindowsImageCropperAdapter.CreateModule();
+        public void Register(IChannelService channels) => module.Register(channels);
+        public void Dispose() => module.Dispose();
+    }
 #endif
 }

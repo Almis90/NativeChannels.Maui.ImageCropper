@@ -1,6 +1,6 @@
 using global::Windows.Storage.Streams;
 
-namespace NativeChannels.Maui.ImageCropper.Windows;
+namespace NativeChannels.ImageCropper.Native.Windows;
 
 internal static class ImageStreams
 {

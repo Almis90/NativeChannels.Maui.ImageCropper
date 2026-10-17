@@ -24,7 +24,7 @@ jobs:
         timeout-minutes: 2
         run: dotnet run --project tests/ImageCropper.Tests -c Release -p:TestWindows=true --no-build
       - run: dotnet build samples/ImageCropper.Sample -c Release -p:TargetFrameworks=net10.0-windows10.0.19041.0
-      - run: dotnet pack native/windows/NativeChannels.Maui.ImageCropper.Windows.csproj -c Release -o artifacts/windows-adapter
+      - run: dotnet pack native/windows/NativeChannels.ImageCropper.Native.Windows.csproj -c Release -o artifacts/windows-adapter
       - run: dotnet pack src/NativeChannels.Maui.ImageCropper -c Release -p:TargetFrameworks=net10.0-windows10.0.19041.0 -p:BuildPackageSlice=true -o artifacts/slices/windows
       - uses: actions/upload-artifact@v4
         with:
@@ -56,6 +56,11 @@ jobs:
       - run: python3 eng/build-android.py
       - run: dotnet workload install maui-android
       - run: dotnet build samples/ImageCropper.Sample -c Release -f net10.0-android -p:TargetFrameworks=net10.0-android -p:RuntimeIdentifier=android-arm64
+      - run: dotnet pack native/android/NativeChannels.ImageCropper.Native.Android.csproj -c Release -o artifacts/android-adapter
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-adapter
+          path: artifacts/android-adapter/*.nupkg
       - run: dotnet pack src/NativeChannels.Maui.ImageCropper -c Release -p:TargetFrameworks=net10.0-android -p:BuildPackageSlice=true -o artifacts/slices/android
       - uses: actions/upload-artifact@v4
         with:
@@ -75,6 +80,11 @@ jobs:
       - run: dotnet workload install maui --version 10.0.201
       - run: dotnet build samples/ImageCropper.Sample -c Release -p:TargetFrameworks=net10.0-ios -p:RuntimeIdentifier=iossimulator-arm64
       - run: dotnet build samples/ImageCropper.Sample -c Release -p:TargetFrameworks=net10.0-maccatalyst
+      - run: dotnet pack native/apple/NativeChannels.ImageCropper.Native.Apple.csproj -c Release -o artifacts/apple-adapter
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apple-adapter
+          path: artifacts/apple-adapter/*.nupkg
       - run: dotnet pack src/NativeChannels.Maui.ImageCropper -c Release -p:TargetFrameworks=net10.0-ios -p:BuildPackageSlice=true -o artifacts/slices/ios
       - run: dotnet pack src/NativeChannels.Maui.ImageCropper -c Release -p:TargetFrameworks=net10.0-maccatalyst -p:BuildPackageSlice=true -o artifacts/slices/maccatalyst
       - uses: actions/upload-artifact@v4
@@ -93,8 +103,10 @@ jobs:
       - run: python3 eng/merge-packages.py artifacts/slices artifacts/packages
       - uses: actions/download-artifact@v4
         with:
-          name: windows-adapter
+          pattern: "*-adapter"
+          merge-multiple: true
           path: artifacts/packages
+      - run: python3 eng/inspect-package.py artifacts/packages
       - uses: actions/upload-artifact@v4
         with:
           name: nuget

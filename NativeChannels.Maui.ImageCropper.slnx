@@ -1,7 +1,10 @@
 <Solution>
-  <Folder Name="/native/" />
+  <Folder Name="/native/">
+    <Project Path="native/android/NativeChannels.ImageCropper.Native.Android.csproj" />
+    <Project Path="native/apple/NativeChannels.ImageCropper.Native.Apple.csproj" />
+  </Folder>
   <Folder Name="/native/windows/">
-    <Project Path="native/windows/NativeChannels.Maui.ImageCropper.Windows.csproj" />
+    <Project Path="native/windows/NativeChannels.ImageCropper.Native.Windows.csproj" />
   </Folder>
   <Folder Name="/samples/">
     <Project Path="samples/ImageCropper.Sample/ImageCropper.Sample.csproj" />

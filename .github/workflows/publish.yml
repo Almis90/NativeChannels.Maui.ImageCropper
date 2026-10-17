@@ -28,11 +28,14 @@ jobs:
         id: login
         with:
           user: Almis
-      - name: Publish Windows adapter
+      - name: Publish native adapters
         env:
           NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
-        run: dotnet nuget push artifacts/packages/NativeChannels.Maui.ImageCropper.Windows.0.1.0-preview.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: |
+          for package in artifacts/packages/NativeChannels.ImageCropper.Native.*.nupkg; do
+            dotnet nuget push "$package" --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
+          done
       - name: Publish MAUI package
         env:
           NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
-        run: dotnet nuget push artifacts/packages/NativeChannels.Maui.ImageCropper.0.1.0-preview.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push artifacts/packages/NativeChannels.Maui.ImageCropper.0.1.0-preview.2.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate

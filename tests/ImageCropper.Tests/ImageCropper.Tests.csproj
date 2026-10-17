@@ -18,6 +18,6 @@
     <Compile Include="../../src/NativeChannels.Maui.ImageCropper/ImageCropper.cs" Link="ImageCropper.cs" />
   </ItemGroup>
   <ItemGroup Condition="'$(TestWindows)' == 'true'">
-    <ProjectReference Include="../../native/windows/NativeChannels.Maui.ImageCropper.Windows.csproj" />
+    <ProjectReference Include="../../native/windows/NativeChannels.ImageCropper.Native.Windows.csproj" />
   </ItemGroup>
 </Project>
