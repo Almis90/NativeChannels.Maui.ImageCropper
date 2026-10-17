@@ -1,5 +1,10 @@
 name: Build and verify
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
 permissions:
   contents: read
 jobs:
@@ -9,19 +14,28 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.201
       - run: dotnet workload install maui-windows
       - run: dotnet run --project tests/ImageCropper.Tests -c Release
       - run: dotnet run --project tests/ImageCropper.Tests -c Release -p:TestWindows=true
       - run: dotnet build samples/ImageCropper.Sample -c Release -p:TargetFrameworks=net10.0-windows10.0.19041.0
-      - run: dotnet pack native/windows/NativeChannels.Maui.ImageCropper.Windows.csproj -c Release -o artifacts/packages
+      - run: dotnet pack native/windows/NativeChannels.ImageCropper.Maui.Windows.csproj -c Release -o artifacts/windows-adapter
+      - run: dotnet pack src/NativeChannels.ImageCropper.Maui -c Release -p:TargetFrameworks=net10.0-windows10.0.19041.0 -p:BuildPackageSlice=true -o artifacts/slices/windows
+      - uses: actions/upload-artifact@v4
+        with:
+          name: slice-windows
+          path: artifacts/slices/windows/*.nupkg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-adapter
+          path: artifacts/windows-adapter/*.nupkg
   android:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.201
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -35,16 +49,81 @@ jobs:
       - run: python3 eng/build-android.py
       - run: dotnet workload install maui-android
       - run: dotnet build samples/ImageCropper.Sample -c Release -f net10.0-android -p:TargetFrameworks=net10.0-android -p:RuntimeIdentifier=android-arm64
+      - run: dotnet pack src/NativeChannels.ImageCropper.Maui -c Release -p:TargetFrameworks=net10.0-android -p:BuildPackageSlice=true -o artifacts/slices/android
+      - uses: actions/upload-artifact@v4
+        with:
+          name: slice-android
+          path: artifacts/slices/android/*.nupkg
   apple:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.201
       - run: xcodebuild -version
       - run: python3 eng/prepare-native.py
       - run: python3 eng/build-apple.py
       - run: dotnet workload install maui
       - run: dotnet build samples/ImageCropper.Sample -c Release -p:TargetFrameworks=net10.0-ios -p:RuntimeIdentifier=iossimulator-arm64
       - run: dotnet build samples/ImageCropper.Sample -c Release -p:TargetFrameworks=net10.0-maccatalyst
+      - run: dotnet pack src/NativeChannels.ImageCropper.Maui -c Release -p:TargetFrameworks=net10.0-ios -p:BuildPackageSlice=true -o artifacts/slices/ios
+      - run: dotnet pack src/NativeChannels.ImageCropper.Maui -c Release -p:TargetFrameworks=net10.0-maccatalyst -p:BuildPackageSlice=true -o artifacts/slices/maccatalyst
+      - uses: actions/upload-artifact@v4
+        with:
+          name: slice-apple
+          path: artifacts/slices/
+  package:
+    needs: [windows, android, apple]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: slice-*
+          path: artifacts/slices
+      - run: python3 eng/merge-packages.py artifacts/slices artifacts/packages
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows-adapter
+          path: artifacts/packages
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nuget
+          path: artifacts/packages/*.nupkg
+  package-consumer:
+    needs: package
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+            workload: maui-windows
+          - os: ubuntu-latest
+            platform: android
+            workload: maui-android
+          - os: macos-latest
+            platform: apple
+            workload: maui
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.201
+      - uses: actions/setup-java@v4
+        if: matrix.platform == 'android'
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+        if: matrix.platform == 'android'
+      - run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+        if: matrix.platform == 'android'
+      - run: dotnet workload install ${{ matrix.workload }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: nuget
+          path: artifacts/packages
+      - run: python eng/verify-package-consumer.py ${{ matrix.platform }}

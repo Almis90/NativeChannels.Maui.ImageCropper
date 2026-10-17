@@ -1,7 +1,7 @@
 using global::Windows.Graphics.Imaging;
 using global::Windows.Storage.Streams;
 
-namespace NativeChannels.Maui.ImageCropper.Windows;
+namespace NativeChannels.ImageCropper.Maui.Windows;
 
 internal static class WindowsImageProcessor
 {

@@ -1,5 +1,5 @@
 using NativeChannels;
-using NativeChannels.Maui.ImageCropper;
+using NativeChannels.ImageCropper.Maui;
 
 int assertions = 0;
 void Check(bool condition, string message)
@@ -47,7 +47,7 @@ try
     await Throws<OperationCanceledException>(() => cropper.CropAsync(file, CropRegion.Full, cancellation.Token));
     endpoint.RemoveMethodCallHandler();
 #if WINDOWS
-    using var module = NativeChannels.Maui.ImageCropper.Windows.WindowsImageCropperAdapter.CreateModule();
+    using var module = NativeChannels.ImageCropper.Maui.Windows.WindowsImageCropperAdapter.CreateModule();
     module.Register(server);
     // A 2x2 RGBA PNG with red/green on the top row and blue/white on the bottom row.
     await File.WriteAllBytesAsync(file, Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVR4nGP4z8DwHwyBNBgAAEnICff5q7YNAAAAAElFTkSuQmCC"));

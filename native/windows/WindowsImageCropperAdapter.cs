@@ -1,4 +1,4 @@
-namespace NativeChannels.Maui.ImageCropper.Windows;
+namespace NativeChannels.ImageCropper.Maui.Windows;
 
 /// <summary>Entry points used by the MAUI facade to register the independent Windows adapter.</summary>
 public static class WindowsImageCropperAdapter

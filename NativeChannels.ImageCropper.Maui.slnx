@@ -1,13 +1,13 @@
 <Solution>
   <Folder Name="/native/" />
   <Folder Name="/native/windows/">
-    <Project Path="native/windows/NativeChannels.Maui.ImageCropper.Windows.csproj" />
+    <Project Path="native/windows/NativeChannels.ImageCropper.Maui.Windows.csproj" />
   </Folder>
   <Folder Name="/samples/">
     <Project Path="samples/ImageCropper.Sample/ImageCropper.Sample.csproj" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="src/NativeChannels.Maui.ImageCropper/NativeChannels.Maui.ImageCropper.csproj" />
+    <Project Path="src/NativeChannels.ImageCropper.Maui/NativeChannels.ImageCropper.Maui.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/ImageCropper.Tests/ImageCropper.Tests.csproj" />

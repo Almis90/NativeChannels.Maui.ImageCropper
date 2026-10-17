@@ -4,5 +4,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
     <Deterministic>true</Deterministic>
+    <RepositoryUrl>https://github.com/Almis90/image-cropper</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/Almis90/image-cropper</PackageProjectUrl>
+    <PackageTags>NativeChannels;ImageCropper;MAUI;Android;iOS;MacCatalyst;WinUI</PackageTags>
   </PropertyGroup>
 </Project>

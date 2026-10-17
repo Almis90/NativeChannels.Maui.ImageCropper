@@ -1,4 +1,4 @@
-using NativeChannels.Maui.ImageCropper;
+using NativeChannels.ImageCropper.Maui;
 
 namespace ImageCropper.Sample;
 

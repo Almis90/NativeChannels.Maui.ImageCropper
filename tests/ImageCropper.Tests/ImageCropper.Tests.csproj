@@ -7,11 +7,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NativeChannels.Core" Version="0.1.0-preview.2" />
-    <Compile Include="../../src/NativeChannels.Maui.ImageCropper/CropRegion.cs" Link="CropRegion.cs" />
-    <Compile Include="../../src/NativeChannels.Maui.ImageCropper/IImageCropper.cs" Link="IImageCropper.cs" />
-    <Compile Include="../../src/NativeChannels.Maui.ImageCropper/ImageCropper.cs" Link="ImageCropper.cs" />
+    <Compile Include="../../src/NativeChannels.ImageCropper.Maui/CropRegion.cs" Link="CropRegion.cs" />
+    <Compile Include="../../src/NativeChannels.ImageCropper.Maui/IImageCropper.cs" Link="IImageCropper.cs" />
+    <Compile Include="../../src/NativeChannels.ImageCropper.Maui/ImageCropper.cs" Link="ImageCropper.cs" />
   </ItemGroup>
   <ItemGroup Condition="'$(TestWindows)' == 'true'">
-    <ProjectReference Include="../../native/windows/NativeChannels.Maui.ImageCropper.Windows.csproj" />
+    <ProjectReference Include="../../native/windows/NativeChannels.ImageCropper.Maui.Windows.csproj" />
   </ItemGroup>
 </Project>

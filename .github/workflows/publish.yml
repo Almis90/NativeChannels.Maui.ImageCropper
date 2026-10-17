@@ -1,0 +1,38 @@
+name: Publish NuGet preview
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: nuget-publish
+  cancel-in-progress: false
+jobs:
+  verify:
+    uses: ./.github/workflows/build.yml
+  publish:
+    needs: verify
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.201
+      - uses: actions/download-artifact@v4
+        with:
+          name: nuget
+          path: artifacts/packages
+      - uses: NuGet/login@v1
+        id: login
+        with:
+          user: Almis
+      - name: Publish Windows adapter
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: dotnet nuget push artifacts/packages/NativeChannels.ImageCropper.Maui.Windows.0.1.0-preview.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Publish MAUI package
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: dotnet nuget push artifacts/packages/NativeChannels.ImageCropper.Maui.0.1.0-preview.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate

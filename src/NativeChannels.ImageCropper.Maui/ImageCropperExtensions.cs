@@ -1,10 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 #if WINDOWS
-using NativeChannels.Maui.ImageCropper.Windows;
+using NativeChannels.ImageCropper.Maui.Windows;
 #endif
 
-namespace NativeChannels.Maui.ImageCropper;
+namespace NativeChannels.ImageCropper.Maui;
 
 public static class ImageCropperExtensions
 {
