@@ -1,0 +1,2 @@
+-keep class dev.nativechannels.imagecropper.ImageCropperModule { public *; }
+-keep class dev.nativechannels.imagecropper.ImageCropperViewFactory { public *; }

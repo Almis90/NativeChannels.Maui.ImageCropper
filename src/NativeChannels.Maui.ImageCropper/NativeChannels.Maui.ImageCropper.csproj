@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst;net10.0-windows10.0.19041.0</TargetFrameworks>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <PackageId>NativeChannels.Maui.ImageCropper</PackageId>
+    <Version>0.1.0-preview</Version>
+    <Authors>NativeChannels.Maui.ImageCropper contributors</Authors>
+    <Description>Native image cropping for Android, iOS, Mac Catalyst and Windows through NativeChannels.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-android'))">24.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-ios')) Or $(TargetFramework.Contains('-maccatalyst'))">15.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="NativeChannels.Maui" Version="0.1.0-preview.2" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.110" />
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+    <None Update="buildTransitive/*.targets" Pack="true" PackagePath="buildTransitive/" />
+    <None Include="../../artifacts/native/android/imagecropper.aar" Pack="true" PackagePath="native/android/" />
+    <None Include="../../artifacts/native/android/android-image-cropper-4.7.0.aar" Pack="true" PackagePath="native/android/" />
+    <None Include="../../native/android/CanHub-LICENSE.txt" Pack="true" PackagePath="native/android/" />
+    <None Include="../../artifacts/native/apple/MauiImageCropperNative.xcframework/**/*" Pack="true" PackagePath="native/apple/MauiImageCropperNative.xcframework/%(RecursiveDir)" />
+    <None Include="../../artifacts/native/apple/Mantis.xcframework/**/*" Pack="true" PackagePath="native/apple/Mantis.xcframework/%(RecursiveDir)" />
+    <None Include="../../native/apple/Mantis-LICENSE.txt" Pack="true" PackagePath="native/apple/" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
+    <ProjectReference Include="../../native/windows/NativeChannels.Maui.ImageCropper.Windows.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
+    <!-- CanHub's runtime dependencies: use NuGet-managed AndroidX/Kotlin assets once. -->
+    <PackageReference Include="Xamarin.AndroidX.DataBinding.ViewBinding" Version="8.5.2" />
+    <PackageReference Include="Xamarin.AndroidX.Activity.Ktx" Version="1.10.1.3" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.7.1.1" />
+    <PackageReference Include="Xamarin.AndroidX.Core.Core.Ktx" Version="1.16.0.3" />
+    <PackageReference Include="Xamarin.AndroidX.ExifInterface" Version="1.4.1.1" />
+    <PackageReference Include="Xamarin.Kotlin.Parcelize.Runtime" Version="2.3.0.1" />
+    <PackageReference Include="Xamarin.KotlinX.Coroutines.Android" Version="1.10.2.3" />
+    <PackageReference Include="Xamarin.KotlinX.Coroutines.Core.Jvm" Version="1.10.2.3" />
+  </ItemGroup>
+  <Target Name="ValidateNativeAssets" BeforeTargets="GenerateNuspec">
+    <Error Condition="!Exists('../../artifacts/native/android/imagecropper.aar')" Text="Build the Android adapter before packing (see README)." />
+    <Error Condition="!Exists('../../artifacts/native/android/android-image-cropper-4.7.0.aar')" Text="Stage the CanHub AAR with eng/build-android.py before packing." />
+    <Error Condition="!Exists('../../artifacts/native/apple/MauiImageCropperNative.xcframework/Info.plist')" Text="Build the Apple adapter before packing (see README)." />
+    <Error Condition="!Exists('../../artifacts/native/apple/Mantis.xcframework/Info.plist')" Text="Build Mantis with eng/build-apple.py before packing." />
+  </Target>
+</Project>

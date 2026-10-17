@@ -1,0 +1,8 @@
+**/bin/
+**/obj/
+**/build/
+**/.gradle/
+**/__pycache__/
+artifacts/
+.vs/
+native/android/local.properties

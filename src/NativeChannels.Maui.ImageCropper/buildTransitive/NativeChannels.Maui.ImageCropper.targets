@@ -1,0 +1,25 @@
+<Project>
+  <PropertyGroup>
+    <ImageCropperNativeRoot Condition="'$(ImageCropperNativeRoot)' == ''">$(MSBuildThisFileDirectory)../native/</ImageCropperNativeRoot>
+  </PropertyGroup>
+  <ItemGroup Condition="$(TargetFramework.Contains('-android'))">
+    <AndroidLibrary Include="$(ImageCropperNativeRoot)android/imagecropper.aar" Bind="false" />
+    <AndroidLibrary Include="$(ImageCropperNativeRoot)android/android-image-cropper-4.7.0.aar" Bind="false" />
+  </ItemGroup>
+  <Target Name="ValidateImageCropperAndroidAssets" BeforeTargets="PrepareForBuild" Condition="$(TargetFramework.Contains('-android'))">
+    <Error Condition="!Exists('$(ImageCropperNativeRoot)android/imagecropper.aar') Or !Exists('$(ImageCropperNativeRoot)android/android-image-cropper-4.7.0.aar')" Text="ImageCropper Android native assets are missing. For source builds, run eng/prepare-native.py and eng/build-android.py first." />
+  </Target>
+  <ItemGroup Condition="$(TargetFramework.Contains('-ios')) Or $(TargetFramework.Contains('-maccatalyst'))">
+    <NativeReference Include="$(ImageCropperNativeRoot)apple/Mantis.xcframework">
+      <Kind>Framework</Kind>
+      <SmartLink>false</SmartLink>
+    </NativeReference>
+    <NativeReference Include="$(ImageCropperNativeRoot)apple/MauiImageCropperNative.xcframework">
+      <Kind>Framework</Kind>
+      <SmartLink>false</SmartLink>
+    </NativeReference>
+  </ItemGroup>
+  <Target Name="ValidateImageCropperAppleAssets" BeforeTargets="PrepareForBuild" Condition="$(TargetFramework.Contains('-ios')) Or $(TargetFramework.Contains('-maccatalyst'))">
+    <Error Condition="!Exists('$(ImageCropperNativeRoot)apple/Mantis.xcframework/Info.plist') Or !Exists('$(ImageCropperNativeRoot)apple/MauiImageCropperNative.xcframework/Info.plist')" Text="ImageCropper Apple native assets are missing. Build them on macOS with eng/prepare-native.py and eng/build-apple.py." />
+  </Target>
+</Project>
