@@ -5,6 +5,12 @@
     <TargetFramework Condition="'$(TestWindows)' == 'true'">net10.0-windows10.0.19041.0</TargetFramework>
     <SupportedOSPlatformVersion Condition="'$(TestWindows)' == 'true'">10.0.17763.0</SupportedOSPlatformVersion>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(TestWindows)' == 'true'">
+    <!-- CI has no installed Windows App Runtime or interactive desktop. -->
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <WindowsAppSDKBootstrapAutoInitializeOptions_None>true</WindowsAppSDKBootstrapAutoInitializeOptions_None>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NativeChannels.Core" Version="0.1.0-preview.2" />
     <Compile Include="../../src/NativeChannels.Maui.ImageCropper/CropRegion.cs" Link="CropRegion.cs" />
