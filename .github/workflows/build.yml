@@ -63,10 +63,11 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.201
+      - run: sudo xcode-select --switch /Applications/Xcode_26.2.app/Contents/Developer
       - run: xcodebuild -version
       - run: python3 eng/prepare-native.py
       - run: python3 eng/build-apple.py
-      - run: dotnet workload install maui
+      - run: dotnet workload install maui --version 10.0.201
       - run: dotnet build samples/ImageCropper.Sample -c Release -p:TargetFrameworks=net10.0-ios -p:RuntimeIdentifier=iossimulator-arm64
       - run: dotnet build samples/ImageCropper.Sample -c Release -p:TargetFrameworks=net10.0-maccatalyst
       - run: dotnet pack src/NativeChannels.Maui.ImageCropper -c Release -p:TargetFrameworks=net10.0-ios -p:BuildPackageSlice=true -o artifacts/slices/ios
@@ -125,7 +126,9 @@ jobs:
         if: matrix.platform == 'android'
       - run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
         if: matrix.platform == 'android'
-      - run: dotnet workload install ${{ matrix.workload }}
+      - run: sudo xcode-select --switch /Applications/Xcode_26.2.app/Contents/Developer
+        if: matrix.platform == 'apple'
+      - run: dotnet workload install ${{ matrix.workload }} --version 10.0.201
       - uses: actions/download-artifact@v4
         with:
           name: nuget
