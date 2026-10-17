@@ -1,6 +1,7 @@
 using NativeChannels;
 using NativeChannels.Maui.ImageCropper;
 
+Console.WriteLine("Starting channel contract tests.");
 int assertions = 0;
 void Check(bool condition, string message)
 {
@@ -47,19 +48,23 @@ try
     await Throws<OperationCanceledException>(() => cropper.CropAsync(file, CropRegion.Full, cancellation.Token));
     endpoint.RemoveMethodCallHandler();
 #if WINDOWS
+    Console.WriteLine("Starting Windows native crop tests.");
     using var module = NativeChannels.Maui.ImageCropper.Windows.WindowsImageCropperAdapter.CreateModule();
     module.Register(server);
     // A 2x2 RGBA PNG with red/green on the top row and blue/white on the bottom row.
     await File.WriteAllBytesAsync(file, Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVR4nGP4z8DwHwyBNBgAAEnICff5q7YNAAAAAElFTkSuQmCC"));
+    Console.WriteLine("Cropping the native PNG.");
     var bytes = await cropper.CropAsync(file, new(.5, 0, .5, 1));
     Check(System.Buffers.Binary.BinaryPrimitives.ReadInt32BigEndian(bytes.AsSpan(16, 4)) == 1, "Native crop width");
     Check(System.Buffers.Binary.BinaryPrimitives.ReadInt32BigEndian(bytes.AsSpan(20, 4)) == 2, "Native crop height");
     using var stream = new Windows.Storage.Streams.InMemoryRandomAccessStream();
     using (var writer = new Windows.Storage.Streams.DataWriter(stream.GetOutputStreamAt(0)))
     { writer.WriteBytes(bytes); await writer.StoreAsync(); }
+    Console.WriteLine("Decoding cropped pixels.");
     var decoder = await Windows.Graphics.Imaging.BitmapDecoder.CreateAsync(stream);
     var pixels = (await decoder.GetPixelDataAsync()).DetachPixelData();
     Check(pixels[0] == 0 && pixels[1] == 255 && pixels[2] == 0, "Correct green pixel selected");
+    Console.WriteLine("Checking fractional bounds and native error handling.");
     var fractional = await cropper.CropAsync(file, new(.1, .1, .5, .5));
     Check(System.Buffers.Binary.BinaryPrimitives.ReadInt32BigEndian(fractional.AsSpan(16, 4)) == 2
         && System.Buffers.Binary.BinaryPrimitives.ReadInt32BigEndian(fractional.AsSpan(20, 4)) == 2,
