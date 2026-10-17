@@ -16,12 +16,12 @@
     <PackageReference Include="NativeChannels.Maui" Version="0.1.0-preview.2" />
     <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.110" />
     <None Include="../../README.md" Pack="true" PackagePath="/" />
-    <None Update="buildTransitive/*.targets" Pack="true" PackagePath="buildTransitive/" />
+    <None Include="buildTransitive/*.targets" Pack="true" PackagePath="buildTransitive/" />
     <None Condition="Exists('../../artifacts/native/android/imagecropper.aar')" Include="../../artifacts/native/android/imagecropper.aar" Pack="true" PackagePath="native/android/" />
     <None Condition="Exists('../../artifacts/native/android/android-image-cropper-4.7.0.aar')" Include="../../artifacts/native/android/android-image-cropper-4.7.0.aar" Pack="true" PackagePath="native/android/" />
     <None Include="../../native/android/CanHub-LICENSE.txt" Pack="true" PackagePath="native/android/" />
-    <None Include="../../artifacts/native/apple/MauiImageCropperNative.xcframework/**/*" Pack="true" PackagePath="native/apple/MauiImageCropperNative.xcframework/%(RecursiveDir)" />
-    <None Include="../../artifacts/native/apple/Mantis.xcframework/**/*" Pack="true" PackagePath="native/apple/Mantis.xcframework/%(RecursiveDir)" />
+    <None Include="../../artifacts/native/apple/MauiImageCropperNative.xcframework/**/*" Pack="true" PackagePath="native/apple/MauiImageCropperNative.xcframework/" />
+    <None Include="../../artifacts/native/apple/Mantis.xcframework/**/*" Pack="true" PackagePath="native/apple/Mantis.xcframework/" />
     <None Include="../../native/apple/Mantis-LICENSE.txt" Pack="true" PackagePath="native/apple/" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
